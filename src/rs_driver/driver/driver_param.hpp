@@ -38,6 +38,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <map>
 #include <cstring>
 #include <unordered_map>
+#include <iomanip>
 namespace robosense
 {
 namespace lidar
@@ -313,7 +314,7 @@ struct RSDriverParam  ///< The LiDAR driver parameter
     RS_INFOL << "input type: " << inputTypeToStr(input_type) << RS_REND;
     RS_INFOL << "lidar_type: " << lidarTypeToStr(lidar_type) << RS_REND;
     RS_INFOL << "frame_id: "   << frame_id << RS_REND;
-    RS_INFOL << "------------------------------------------------------" << RS_REND;
+    RS_INFO << "------------------------------------------------------" << RS_REND;
 
     input_param.print();
     decoder_param.print();
@@ -376,6 +377,50 @@ struct DeviceInfo
       state = other.state;
     }
     return *this;
+  }
+
+  void print() const
+  {
+    RS_INFO << "------------------------------------------------------" << RS_REND;
+    RS_INFO << "             RoboSense Device Info " << RS_REND;
+    RS_INFOL << "SN: " << std::hex << std::setfill('0')
+             << std::setw(2) << static_cast<int>(sn[0])
+             << std::setw(2) << static_cast<int>(sn[1])
+             << std::setw(2) << static_cast<int>(sn[2])
+             << std::setw(2) << static_cast<int>(sn[3])
+             << std::setw(2) << static_cast<int>(sn[4])
+             << std::setw(2) << static_cast<int>(sn[5])
+             << std::dec << RS_REND;
+    RS_INFOL << "MAC: " << std::hex << std::setfill('0')
+             << std::setw(2) << static_cast<int>(mac[0]) << ":"
+             << std::setw(2) << static_cast<int>(mac[1]) << ":"
+             << std::setw(2) << static_cast<int>(mac[2]) << ":"
+             << std::setw(2) << static_cast<int>(mac[3]) << ":"
+             << std::setw(2) << static_cast<int>(mac[4]) << ":"
+             << std::setw(2) << static_cast<int>(mac[5])
+             << std::dec << RS_REND;
+    RS_INFOL << "Top Version: "
+             << static_cast<int>(top_ver[0]) << "."
+             << static_cast<int>(top_ver[1]) << "."
+             << static_cast<int>(top_ver[2]) << "."
+             << static_cast<int>(top_ver[3]) << "."
+             << static_cast<int>(top_ver[4]) << RS_REND;
+    RS_INFOL << "Bottom Version: "
+             << static_cast<int>(bottom_ver[0]) << "."
+             << static_cast<int>(bottom_ver[1]) << "."
+             << static_cast<int>(bottom_ver[2]) << "."
+             << static_cast<int>(bottom_ver[3]) << "."
+             << static_cast<int>(bottom_ver[4]) << RS_REND;
+    RS_INFOL << "Quaternion:" << std::setprecision(10) << RS_REND;
+    RS_INFOL << "\tqx: " << qx << RS_REND;
+    RS_INFOL << "\tqy: " << qy << RS_REND;
+    RS_INFOL << "\tqz: " << qz << RS_REND;
+    RS_INFOL << "\tqw: " << qw << RS_REND;
+    RS_INFOL << "Position:" << RS_REND;
+    RS_INFOL << "\tx: " << x << RS_REND;
+    RS_INFOL << "\ty: " << y << RS_REND;
+    RS_INFOL << "\tz: " << z << std::setprecision(6) << RS_REND;
+    RS_INFO << "------------------------------------------------------"  << RS_REND;
   }
 };
 
